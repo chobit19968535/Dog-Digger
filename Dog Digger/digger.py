@@ -5,6 +5,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import pandas as pd
+import math as pmath
 
 class dog(object):
     def __init__(self):
@@ -15,9 +16,9 @@ class dog(object):
     def query(self, mode) -> Enum:
         if(mode == query_modes.income):
             url = self.web.query_url + str(self.ticker) + mode.value
-            print(url)
+            #print(url)
             self.web.driver.get(url)
-            sleep(0.5)
+            utility.delay();
             html = self.web.driver.page_source
             soup = BeautifulSoup(html)
 
@@ -28,14 +29,17 @@ class dog(object):
             dataTable = soup.find("li",attrs={"id":"dataTable"})
             rows = dataTable.findAll("tr")
 
+            #year-season
             for cell in rows[0].findAll("th"):
                 years.append(cell.text)
-    
-            for cell in rows[1].findAll("td"):
-                incomes.append(cell.text)   
 
+            #incomes
+            for cell in rows[1].findAll("td"):
+                incomes.append(int(cell.text.replace(',','')))
+
+            #rates
             for cell in rows[2].findAll("td"):
-                rates.append(cell.text)   
+                rates.append(float(cell.text.replace(',','')))
 
             data = list()
             data.append(years)
@@ -45,8 +49,33 @@ class dog(object):
 
             return df
         if(mode == query_modes.eps):
-            print(self.web.query_url + str(self.ticker) + mode)
-            return
+            url = self.web.query_url + str(self.ticker) + mode.value
+            #print(url)
+            self.web.driver.get(url)
+            utility.delay()
+            html = self.web.driver.page_source
+            soup = BeautifulSoup(html)
+
+            year_season = list()
+            epses = list()
+
+            dataTable = soup.find("li",attrs={"id":"dataTable"})
+
+            rows = dataTable.findAll("tr")
+
+            #year-season
+            for cell in rows[0].findAll("th"):
+                year_season.append(cell.text)
+
+            #eps
+            for cell in rows[1].findAll("td"):
+                epses.append(float(cell.text.replace(',','')))
+
+            data = list()
+            data.append(year_season)
+            data.append(epses)
+            df = pd.DataFrame(data=data)
+            return df
         pass
     pass
 
@@ -73,8 +102,35 @@ class web():
         Input_password.send_keys(args[1])
         Login_button.click()
         pass
+
 class query_modes(Enum):
     income = '/monthly-revenue'
     eps = '/eps'
 
+class math():
+    def quarterlize(dataframe) -> pd.Series:
+        quarterlized_list = list()
+        quarter_cnts = pmath.floor(len(dataframe)/3)
+        quarter_now = list()
+        quarter_size = 3
 
+        for Q in range(quarter_cnts):
+
+            sum =0
+            sum+= (dataframe[Q*quarter_size + 0])
+            sum+= (dataframe[Q*quarter_size + 1])
+            sum+= (dataframe[Q*quarter_size + 2])
+            quarterlized_list.append(sum)
+
+        for q in range(quarter_cnts*quarter_size, len(dataframe)):
+            quarter_now.append(dataframe[q])
+
+
+        quarterlized_df = pd.DataFrame(quarterlized_list)
+        quarter_now_df = pd.DataFrame(quarter_now)
+        dst  = (quarterlized_df, quarter_now_df)
+        return(dst)
+
+class utility():
+    def delay(delay_second = 1):
+        sleep(delay_second)
