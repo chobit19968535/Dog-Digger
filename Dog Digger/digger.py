@@ -1,4 +1,4 @@
-from enum import Enum
+﻿from enum import Enum
 from time import sleep
 from bs4 import BeautifulSoup
 from selenium.webdriver.chrome.options import Options
@@ -76,6 +76,78 @@ class dog(object):
             data.append(epses)
             df = pd.DataFrame(data=data)
             return df
+        if(mode == query_modes.income_statement):
+            url = self.web.query_url + str(self.ticker) + mode.value
+            #print(url)
+            self.web.driver.get(url)
+            utility.delay()
+            html = self.web.driver.page_source
+            soup = BeautifulSoup(html)
+            
+            #季營收_每三個月的營收總和
+            quarter_incomes = list()
+
+            #季毛利 = 季營收 - 季銷貨成本
+            #銷貨成本是銷售商品或提供勞務的直接成本， 但不包含租金、水電、廣告費、研發費...等營運產生的間接費用。
+            quarter_gross = list()
+
+            #銷售費用_銷售產品過程中發生的各項費用，例如：包裝費、運輸費、展覽費、廣告費...等
+            quarter_sales_cost = list()
+
+            #管理費用_公司為了內部組織上的管理營運產生的各項費用，例如：管理人員工資和福利費
+            quarter_management_cost = list()
+
+            #研發費用
+            quarter_research_funds = list()
+
+            #營業費用 = 銷售費用 + 管理費用 + 研發費用 + 其他 
+            quarter_payment = list()
+
+            #本業利益 = 營收 - 銷貨成本 - 營業費用
+            quarter_net_income = list()
+
+            #稅後淨利 = 營收 - 銷貨成本 - 營業費用
+            quarter_profit = list()
+
+            dataTable = soup.find("li",attrs={"id":"dataTable"})
+            rows = dataTable.findAll("tr")
+
+            for cell in rows[1].findAll("td"):
+                quarter_incomes.append(float(cell.text.replace(',','')))
+
+            for cell in rows[2].findAll("td"):
+                quarter_gross.append(float(cell.text.replace(',','')))
+
+            for cell in rows[3].findAll("td"):
+                quarter_sales_cost.append(-float(cell.text.replace(',','')))
+
+            for cell in rows[4].findAll("td"):
+                quarter_management_cost.append(-float(cell.text.replace(',','')))
+
+            for cell in rows[5].findAll("td"):
+                quarter_research_funds.append(-float(cell.text.replace(',','')))
+
+            for cell in rows[6].findAll("td"):
+                quarter_payment.append(-float(cell.text.replace(',','')))
+
+            for cell in rows[7].findAll("td"):
+                quarter_net_income.append(float(cell.text.replace(',','')))
+
+            for cell in rows[9].findAll("td"):
+                quarter_profit.append(float(cell.text.replace(',','')))
+
+            data = list()
+            data.append(quarter_incomes)
+            data.append(quarter_gross)
+            data.append(quarter_sales_cost)
+            data.append(quarter_management_cost)
+            data.append(quarter_research_funds)
+            data.append(quarter_payment)
+            data.append(quarter_net_income)
+            data.append(quarter_profit)
+
+            df = pd.DataFrame(data=data)
+            return df
         pass
     pass
 
@@ -106,6 +178,7 @@ class web():
 class query_modes(Enum):
     income = '/monthly-revenue'
     eps = '/eps'
+    income_statement = '/income-statement'
 
 class math():
     def quarterlize(dataframe) -> pd.Series:
