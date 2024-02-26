@@ -72,9 +72,15 @@ class dog(object):
                 epses.append(float(cell.text.replace(',','')))
 
             data = list()
+            data_header = list()
+            data_header = ['年/季', 'EPS']
+
             data.append(year_season)
             data.append(epses)
             df = pd.DataFrame(data=data)
+            df = df.T
+            df.columns = data_header
+            df = df.T
             return df
         if(mode == query_modes.income_statement):
             url = self.web.query_url + str(self.ticker) + mode.value
@@ -103,11 +109,14 @@ class dog(object):
             #營業費用 = 銷售費用 + 管理費用 + 研發費用 + 其他 
             quarter_payment = list()
 
-            #本業利益 = 營收 - 銷貨成本 - 營業費用
+            #主業利益 = 營收 - 銷貨成本 - 營業費用
             quarter_net_income = list()
 
             #稅後淨利 = 營收 - 銷貨成本 - 營業費用
             quarter_profit = list()
+
+            #業外損益 = 稅後淨利 - 主業損益
+            quarter_non_main_income = list()
 
             dataTable = soup.find("li",attrs={"id":"dataTable"})
             rows = dataTable.findAll("tr")
@@ -136,7 +145,15 @@ class dog(object):
             for cell in rows[9].findAll("td"):
                 quarter_profit.append(float(cell.text.replace(',','')))
 
+            for i in range(len(quarter_profit)):
+                quarter_non_main_income.append( quarter_profit[i] - quarter_net_income[i])
+
+
             data = list()
+            data_header = list()
+
+            data_header =['營收', '毛利', '銷售費用', '管理費用', '研發費用', '營業總支出', '主業損益', '稅後淨利', '業外損益']
+
             data.append(quarter_incomes)
             data.append(quarter_gross)
             data.append(quarter_sales_cost)
@@ -145,8 +162,16 @@ class dog(object):
             data.append(quarter_payment)
             data.append(quarter_net_income)
             data.append(quarter_profit)
+            data.append(quarter_non_main_income)
+
 
             df = pd.DataFrame(data=data)
+            df = df.T
+            df.columns = data_header
+            df = df.T
+
+
+
             return df
         pass
     pass
