@@ -1,4 +1,5 @@
 ﻿from enum import Enum
+from pickle import NONE
 from time import sleep
 from bs4 import BeautifulSoup
 from selenium.webdriver.chrome.options import Options
@@ -6,6 +7,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import pandas as pd
 import math as pmath
+from analyzer import pca
+
 
 class dog(object):
     def __init__(self):
@@ -20,13 +23,18 @@ class dog(object):
             self.web.driver.get(url)
             utility.delay();
             html = self.web.driver.page_source
-            soup = BeautifulSoup(html)
+            soup = BeautifulSoup(html, features="html.parser")
+            if(soup == None):
+                while (soup == None):
+                    soup = BeautifulSoup(html)
+                    pass
 
             years = list()
             incomes = list()
             rates = list()
 
             dataTable = soup.find("li",attrs={"id":"dataTable"})
+
             rows = dataTable.findAll("tr")
 
             #year-season
@@ -35,10 +43,16 @@ class dog(object):
 
             #incomes
             for cell in rows[1].findAll("td"):
+                if(cell.text == '無'): 
+                    incomes.append(0)
+                    continue
                 incomes.append(int(cell.text.replace(',','')))
 
             #rates
             for cell in rows[2].findAll("td"):
+                if(cell.text == '無'):
+                    rates.append(0)
+                    continue
                 rates.append(float(cell.text.replace(',','')))
 
             data = list()
@@ -69,6 +83,9 @@ class dog(object):
 
             #eps
             for cell in rows[1].findAll("td"):
+                if(cell.text == '無'):
+                    epses.append(0)
+                    continue
                 epses.append(float(cell.text.replace(',','')))
 
             data = list()
@@ -122,27 +139,51 @@ class dog(object):
             rows = dataTable.findAll("tr")
 
             for cell in rows[1].findAll("td"):
+                if(cell.text == '無'):
+                    quarter_incomes.append(0)
+                    continue
                 quarter_incomes.append(float(cell.text.replace(',','')))
 
             for cell in rows[2].findAll("td"):
+                if(cell.text == '無'):
+                    quarter_gross.append(0)
+                    continue
                 quarter_gross.append(float(cell.text.replace(',','')))
 
             for cell in rows[3].findAll("td"):
+                if(cell.text == '無'):
+                    quarter_sales_cost.append(0)
+                    continue
                 quarter_sales_cost.append(-float(cell.text.replace(',','')))
 
             for cell in rows[4].findAll("td"):
+                if(cell.text == '無'):
+                    quarter_management_cost.append(0)
+                    continue
                 quarter_management_cost.append(-float(cell.text.replace(',','')))
 
             for cell in rows[5].findAll("td"):
+                if(cell.text == '無'):
+                    quarter_research_funds.append(0)
+                    continue
                 quarter_research_funds.append(-float(cell.text.replace(',','')))
 
             for cell in rows[6].findAll("td"):
+                if(cell.text == '無'):
+                    quarter_payment.append(0)
+                    continue
                 quarter_payment.append(-float(cell.text.replace(',','')))
 
             for cell in rows[7].findAll("td"):
+                if(cell.text == '無'):
+                    quarter_net_income.append(0)
+                    continue
                 quarter_net_income.append(float(cell.text.replace(',','')))
 
             for cell in rows[9].findAll("td"):
+                if(cell.text == '無'):
+                    quarter_profit.append(0)
+                    continue
                 quarter_profit.append(float(cell.text.replace(',','')))
 
             for i in range(len(quarter_profit)):
@@ -174,7 +215,14 @@ class dog(object):
 
             return df
         pass
-    pass
+
+    def analyze(self, statement) -> pd.DataFrame:
+        optimizer = pca(statement, self.ticker)
+        optimizer.ppmcc()
+        #optimizer.run()
+
+
+        pass
 
 class web():
     def __init__(self):
@@ -230,5 +278,5 @@ class math():
         return(dst)
 
 class utility():
-    def delay(delay_second = 1):
+    def delay(delay_second = 2):
         sleep(delay_second)

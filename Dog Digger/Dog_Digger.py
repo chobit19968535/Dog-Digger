@@ -15,7 +15,7 @@ user.password = "zapdAj-pepbe4-bykzuf"
 
 dog = dog()
 
-dog.ticker = "3189"
+dog.ticker = "6269"
 dog.web.login((user.account, user.password))
 user.clear()
 
@@ -29,6 +29,8 @@ digger.utility.delay()
 
 df_report = pd.concat([df_income_statement.transpose(), df_epses.iloc[1]], axis = 1)
 df_report.to_excel('Report_' + dog.ticker + '.xlsx', index = None);
+
+dog.analyze(df_report)
 
 #res = digger.math.quarterlize(df_income.iloc[1])
 
