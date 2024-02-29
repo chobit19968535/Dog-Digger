@@ -32,13 +32,13 @@ class pca():
         #標準化視覺化
         plt.figure(figsize=(20,5))
         plt.title("pca_analyize")
-        rescale["營收"].plot()
+        rescale["毛利"].plot()
         plt.grid=True
         plt.legend()
         plt.show()
 
         X_train = rescale.copy()
-        n_components = 4
+        n_components = 9
         pca = PCA(n_components=n_components)
         Pc = pca.fit(X_train)
 
@@ -52,5 +52,5 @@ class pca():
         print(Series2[len(Series2)-1:len(Series2)].values[0])
         print("各變數解釋比例：")
         print(Series1.sort_values(ascending=False))
-        pca.components_(1)
+        pca.components_[1]
         pass

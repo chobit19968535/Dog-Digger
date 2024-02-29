@@ -1,4 +1,5 @@
-﻿from enum import Enum
+﻿from cgitb import text
+from enum import Enum
 from pickle import NONE
 from time import sleep
 from bs4 import BeautifulSoup
@@ -50,7 +51,7 @@ class dog(object):
 
             #rates
             for cell in rows[2].findAll("td"):
-                if(cell.text == '無'):
+                if(cell.text == '無' or cell.text == '前期為零'):
                     rates.append(0)
                     continue
                 rates.append(float(cell.text.replace(',','')))
@@ -83,7 +84,7 @@ class dog(object):
 
             #eps
             for cell in rows[1].findAll("td"):
-                if(cell.text == '無'):
+                if(cell.text == '無' or cell.text =='前期為零'):
                     epses.append(0)
                     continue
                 epses.append(float(cell.text.replace(',','')))
@@ -134,6 +135,9 @@ class dog(object):
 
             #業外損益 = 稅後淨利 - 主業損益
             quarter_non_main_income = list()
+
+            #研發費用與營業費用的比例
+            quarter_research_payment_ratio = list()
 
             dataTable = soup.find("li",attrs={"id":"dataTable"})
             rows = dataTable.findAll("tr")
@@ -204,7 +208,6 @@ class dog(object):
             data.append(quarter_net_income)
             data.append(quarter_profit)
             data.append(quarter_non_main_income)
-
 
             df = pd.DataFrame(data=data)
             df = df.T
