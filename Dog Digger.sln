@@ -5,14 +5,28 @@ VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Dog Digger", "Dog Digger\Dog Digger.pyproj", "{862E4D82-4E6A-4C7E-AA2D-796B581DD2BE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DashBoard", "DashBoard\DashBoard.csproj", "{B6B7AE9F-C1B9-4DCA-87B0-E362EDE22307}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{862E4D82-4E6A-4C7E-AA2D-796B581DD2BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{862E4D82-4E6A-4C7E-AA2D-796B581DD2BE}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{862E4D82-4E6A-4C7E-AA2D-796B581DD2BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{862E4D82-4E6A-4C7E-AA2D-796B581DD2BE}.Release|x64.ActiveCfg = Release|Any CPU
+		{B6B7AE9F-C1B9-4DCA-87B0-E362EDE22307}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6B7AE9F-C1B9-4DCA-87B0-E362EDE22307}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6B7AE9F-C1B9-4DCA-87B0-E362EDE22307}.Debug|x64.ActiveCfg = Debug|x64
+		{B6B7AE9F-C1B9-4DCA-87B0-E362EDE22307}.Debug|x64.Build.0 = Debug|x64
+		{B6B7AE9F-C1B9-4DCA-87B0-E362EDE22307}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6B7AE9F-C1B9-4DCA-87B0-E362EDE22307}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6B7AE9F-C1B9-4DCA-87B0-E362EDE22307}.Release|x64.ActiveCfg = Release|x64
+		{B6B7AE9F-C1B9-4DCA-87B0-E362EDE22307}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
