@@ -19,6 +19,7 @@ namespace DashBoard
         public Form_login()
         {
             InitializeComponent();
+            start_position();
             email = string.Empty;
             password = string.Empty;
 
@@ -29,6 +30,14 @@ namespace DashBoard
             email = textBox_user_name.Text;
             password = textBox_user_password.Text;
             this.DialogResult = DialogResult.OK;
+        }
+
+        private void start_position()
+        {
+            var size =  Screen.FromControl(this).Bounds;
+            this.Location = new Point(size.Width/2 - this.Width/2, size.Height/2 - this.Height/2);
+
+
         }
     }
 }

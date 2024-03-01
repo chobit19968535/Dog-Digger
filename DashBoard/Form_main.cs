@@ -13,6 +13,7 @@ namespace DashBoard
         public Form_dash_board(List<string> info)
         {
             InitializeComponent();
+            start_position();
             email = info[0];
             password = info[1];
             login();
@@ -44,6 +45,13 @@ namespace DashBoard
                 DG.set_ticker(ticker);
                 DG.dig();
             }
+        }
+        private void start_position()
+        {
+            var size = Screen.FromControl(this).Bounds;
+            this.Width = size.Width / 2;
+            this.Height = size.Height;
+            this.Location = new Point(size.Width / 2, 0);
         }
     }
 }

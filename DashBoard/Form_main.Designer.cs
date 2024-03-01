@@ -43,7 +43,7 @@
             // 
             // textBox_ticker_input
             // 
-            this.textBox_ticker_input.Location = new System.Drawing.Point(403, 350);
+            this.textBox_ticker_input.Location = new System.Drawing.Point(864, 998);
             this.textBox_ticker_input.Name = "textBox_ticker_input";
             this.textBox_ticker_input.Size = new System.Drawing.Size(64, 27);
             this.textBox_ticker_input.TabIndex = 1;
@@ -54,7 +54,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(479, 389);
+            this.ClientSize = new System.Drawing.Size(940, 1037);
             this.Controls.Add(this.textBox_ticker_input);
             this.Controls.Add(this.label_ticker);
             this.Font = new System.Drawing.Font("Fira Code", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);

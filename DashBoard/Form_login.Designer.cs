@@ -40,7 +40,7 @@
             this.textBox_user_name.Location = new System.Drawing.Point(198, 41);
             this.textBox_user_name.Margin = new System.Windows.Forms.Padding(5);
             this.textBox_user_name.Name = "textBox_user_name";
-            this.textBox_user_name.Size = new System.Drawing.Size(141, 27);
+            this.textBox_user_name.Size = new System.Drawing.Size(266, 27);
             this.textBox_user_name.TabIndex = 0;
             this.textBox_user_name.Text = "chobit19968535@gmail.com";
             // 
@@ -69,14 +69,14 @@
             this.textBox_user_password.Location = new System.Drawing.Point(198, 82);
             this.textBox_user_password.Margin = new System.Windows.Forms.Padding(5);
             this.textBox_user_password.Name = "textBox_user_password";
-            this.textBox_user_password.Size = new System.Drawing.Size(141, 27);
+            this.textBox_user_password.Size = new System.Drawing.Size(266, 27);
             this.textBox_user_password.TabIndex = 3;
             this.textBox_user_password.Text = "zapdAj-pepbe4-bykzuf";
             // 
             // button_submit
             // 
             this.button_submit.Font = new System.Drawing.Font("Fira Code", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button_submit.Location = new System.Drawing.Point(264, 121);
+            this.button_submit.Location = new System.Drawing.Point(389, 126);
             this.button_submit.Name = "button_submit";
             this.button_submit.Size = new System.Drawing.Size(75, 35);
             this.button_submit.TabIndex = 4;
@@ -89,7 +89,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(379, 173);
+            this.ClientSize = new System.Drawing.Size(501, 173);
             this.Controls.Add(this.button_submit);
             this.Controls.Add(this.textBox_user_password);
             this.Controls.Add(this.label_user_password);
