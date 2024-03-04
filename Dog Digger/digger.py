@@ -227,6 +227,12 @@ class dog(object):
 
         pass
 
+    def line_chart(self, data) -> pd.Series:
+        import matplotlib.pyplot as plt
+        plt.figure(figsize=(10,5))
+        plt.plot(data.index, data.values)
+        plt.savefig(self.ticker + "_" +  data.name + '.png')
+        pass
 class web():
     def __init__(self):
         self.login_url = "https://statementdog.com/users/sign_in"

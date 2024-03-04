@@ -69,6 +69,7 @@
             this.textBox_user_password.Location = new System.Drawing.Point(198, 82);
             this.textBox_user_password.Margin = new System.Windows.Forms.Padding(5);
             this.textBox_user_password.Name = "textBox_user_password";
+            this.textBox_user_password.PasswordChar = '*';
             this.textBox_user_password.Size = new System.Drawing.Size(266, 27);
             this.textBox_user_password.TabIndex = 3;
             this.textBox_user_password.Text = "zapdAj-pepbe4-bykzuf";

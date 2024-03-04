@@ -19,7 +19,7 @@ class pca():
         #plt.rcParams['font.sans-serif'] = ['Microsoft JhengHei'] # 修改中文字體
         plt.rcParams['font.sans-serif'] = ['Noto Sans TC'] # 修改中文字體
 
-        plt.figure(figsize=(12,12))
+        plt.figure(figsize=(10,10))
         plt.title("Correlation Matrix(" + str(self.ticker_name) +")")
         sns.heatmap(cor, vmax=1,square=True,annot=True,cmap="cubehelix")
         plt.savefig("PPMCC_" + self.ticker_name + ".png")

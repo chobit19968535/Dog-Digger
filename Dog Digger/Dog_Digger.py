@@ -13,6 +13,10 @@ import pandas as pd
 user = client()
 dog = dog()
 
+#user.account = "chobit19968535@gmail.com"
+#user.password = "zapdAj-pepbe4-bykzuf"
+#dog.ticker = "6533"
+
 
 def test():
     user = client()
@@ -24,7 +28,7 @@ def test():
     #user.account = "chobit19968535@gmail.com"
     #user.password = "zapdAj-pepbe4-bykzuf"
 
-    dog.ticker = "3189"
+    dog.ticker = "6533"
 
     df_income = dog.query(query_modes.income)
     digger.utility.delay()
@@ -50,6 +54,9 @@ def test():
     df_report = pd.concat([df_report, gross_margin], axis = 1)
 
     df_report.to_excel('Report_' + dog.ticker + '.xlsx', index = None);
+
+    pass
+
 
 def start():
     dog.web.login((user.account, user.password))
@@ -94,3 +101,18 @@ def dig():
     df_report = pd.concat([df_report, gross_margin], axis = 1)
 
     df_report.to_excel('Report_' + dog.ticker + '.xlsx', index = None);
+
+    # 右邊圖表
+    dog.line_chart(df_report['營收']);
+    dog.line_chart(df_report['毛率']);
+    dog.line_chart(df_report['主業損益']);
+    dog.line_chart(df_report['業外損益']);
+
+    # 左邊圖表
+    dog.line_chart(df_report['EPS']);
+    dog.line_chart(df_report['營業總支出']);
+    dog.line_chart(df_report['研支比']);
+    dog.line_chart(df_report['研營比']);
+    pass
+
+
