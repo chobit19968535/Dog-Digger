@@ -20,7 +20,7 @@ namespace DashBoard
         Bitmap BMP_RESEARCH_PER_INCOME { get; set; }
         Bitmap BMP_RESEARCH_PER_PAYMENT { get; set; }
         Bitmap BMP_EPS { get; set; }
-
+        ENVS system_path { get; set; }
 
 
         public Form_dash_board(List<string> info)
@@ -28,6 +28,7 @@ namespace DashBoard
             InitializeComponent();
             start_position();
             component_setting();
+            system_path = new ENVS();
 
             email = info[0];
             password = info[1];
@@ -36,6 +37,24 @@ namespace DashBoard
         }
         private void login()
         {
+
+            Runtime.PythonDLL = system_path.pkg_dog_digger_dir;
+
+            //string pathToVirtualEnv = "C:/Users/felk/venv39";
+
+            //string path = Environment.GetEnvironmentVariable("PATH")!.TrimEnd(Path.PathSeparator);
+            //path = string.IsNullOrEmpty(path) ? pathToVirtualEnv : path + Path.PathSeparator + pathToVirtualEnv;
+            //Environment.SetEnvironmentVariable("PATH", path, EnvironmentVariableTarget.Process);
+            //Environment.SetEnvironmentVariable("PYTHONHOME", pathToVirtualEnv, EnvironmentVariableTarget.Process);
+            //Environment.SetEnvironmentVariable("PYTHONPATH",
+            //    $"{pathToVirtualEnv}/Lib/site-packages{Path.PathSeparator}" +
+            //    $"{pathToVirtualEnv}/Lib{Path.PathSeparator}", EnvironmentVariableTarget.Process);
+
+            //PythonEngine.PythonPath = PythonEngine.PythonPath + Path.PathSeparator +
+            //                          Environment.GetEnvironmentVariable("PYTHONPATH", EnvironmentVariableTarget.Process);
+            //PythonEngine.PythonHome = pathToVirtualEnv;
+
+
             PythonEngine.Initialize();
             PythonEngine.BeginAllowThreads();
             Py.GIL();
@@ -43,9 +62,13 @@ namespace DashBoard
             dynamic sys = Py.Import("sys");
             dynamic os = Py.Import("os");
             sys.path.append(os.getcwd());
-            sys.path.append("X:\\C#\\Dog Digger\\Dog Digger");
+
+            
+
+            //sys.path.append("X:\\C#\\Dog Digger\\Dog Digger");
             DG = Py.Import("Dog_Digger");
 
+            DG.set_sharp_work_dir();
             DG.set_accountName(email);
             DG.set_password(password);
             DG.start();
@@ -100,10 +123,16 @@ namespace DashBoard
             var size = Screen.FromControl(this).Bounds;
             //this.Width = 2560;
             //this.Height = 1080;
+
             //this.Width = 1920;
             //this.Height = 1080;
-            this.Width = size.Width;
-            this.Height = size.Height;
+
+            this.Width = 1440;
+            this.Height = 900;
+
+            //this.Width = size.Width;
+            //this.Height = size.Height;
+
             this.Location = new Point(size.Width / 2, 0);
         }
         private void component_setting()
@@ -175,6 +204,30 @@ namespace DashBoard
             if (!(e.KeyChar == 8 || (e.KeyChar >= 48 && e.KeyChar <= 57)))
             {
                 e.Handled = true;
+            }
+        }
+        public class ENVS
+        {
+            public string sharp_work_dir;
+            public string pkg_dog_digger_dir;
+            public string python_dll;
+
+            public ENVS() 
+            {
+                sharp_work_dir = Directory.GetCurrentDirectory();
+                set_dog_digger(ref pkg_dog_digger_dir);
+
+            }
+
+            private void set_dog_digger(ref string path)
+            {
+                int total_terms = sharp_work_dir.Split('\\').Length;
+                int remove_terms = 5;
+                for (int i =0; i < total_terms - remove_terms; i++)
+                {
+                    python_dll += sharp_work_dir.Split('\\')[i] + "\\";
+                }
+                    
             }
         }
     }

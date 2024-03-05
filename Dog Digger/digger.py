@@ -13,6 +13,7 @@ from analyzer import pca
 
 class dog(object):
     def __init__(self):
+        self.sharp_dir = None
         self.ticker = "2330"
         self.web = web()
         self.web.session_start()
@@ -221,6 +222,7 @@ class dog(object):
 
     def analyze(self, statement) -> pd.DataFrame:
         optimizer = pca(statement, self.ticker)
+        optimizer.sharp_dir = self.sharp_dir
         optimizer.ppmcc()
         #optimizer.run()
 

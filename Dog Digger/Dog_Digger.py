@@ -76,6 +76,10 @@ def set_ticker(ticker_number)-> string:
     print(dog.ticker)
     return
 
+def set_sharp_work_dir(path) -> string:
+    sharp_dir = path
+    return
+    
 def dig():
     df_income = dog.query(query_modes.income)
     digger.utility.delay()

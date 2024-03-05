@@ -1,23 +1,37 @@
-﻿import pandas as pd
+﻿from ctypes.wintypes import tagPOINT
+import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
-
+from matplotlib import font_manager
 
 class pca():
 
     def __init__(self, dataframe, ticker) -> pd.DataFrame:
+        self.sharp_dir = None
         self.data = dataframe
         self.ticker_name = ticker
 
 
     def ppmcc(self):
+        
+        import matplotlib
+        import os
+        import shutil
+        
+        install_path = str(matplotlib.__file__).replace('\__init__.py','')
+        install_path = install_path + '\mpl-data\fonts\ttf\\'
+        
+        ttf_path = self.sharp_dir + '\\fonts\\NotoSansTC-Medium.ttf'
+        if( os.path.exists (ttf_path) ):
+            shutil.copyfile(ttf_path, install_path + 'NotoSansTC-Medium.ttf')
+
         #資料視覺化
         cor = self.data.corr()
-        #plt.rcParams['font.sans-serif'] = ['Microsoft JhengHei'] # 修改中文字體
-        plt.rcParams['font.sans-serif'] = ['Noto Sans TC'] # 修改中文字體
+        # plt.rcParams['font.sans-serif'] = ['Microsoft JhengHei'] # 修改中文字體
+        plt.rcParams['font.sans-serif'] = ['Noto Sans TC Mediumn'] # 修改中文字體
 
         plt.figure(figsize=(10,10))
         plt.title("Correlation Matrix(" + str(self.ticker_name) +")")
