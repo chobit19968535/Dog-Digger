@@ -13,11 +13,6 @@ import pandas as pd
 user = client()
 dog = dog()
 
-#user.account = "chobit19968535@gmail.com"
-#user.password = "zapdAj-pepbe4-bykzuf"
-#dog.ticker = "6533"
-
-
 def test():
     user = client()
     dog = dog()
@@ -77,7 +72,7 @@ def set_ticker(ticker_number)-> string:
     return
 
 def set_sharp_work_dir(path) -> string:
-    sharp_dir = path
+    dog.sharp_dir = path
     return
     
 def dig():
@@ -119,4 +114,9 @@ def dig():
     dog.line_chart(df_report['研營比']);
     pass
 
+#user.account = "chobit19968535@gmail.com"
+#user.password = "zapdAj-pepbe4-bykzuf"
+#dog.ticker = "6533"
+#start()
+#dig()
 

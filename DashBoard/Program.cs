@@ -30,6 +30,7 @@ namespace DashBoard
 
             List<string> info = new List<string>() { email, password};
             Application.Run(new Form_dash_board(info));
+            Application.Exit();
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿from cgitb import text
 from enum import Enum
+from optparse import Option
 from pickle import NONE
 from time import sleep
 from bs4 import BeautifulSoup
 from selenium.webdriver.chrome.options import Options
+#from selenium.webdriver import ChromeOptions
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import pandas as pd
@@ -30,7 +32,7 @@ class dog(object):
                 while (soup == None):
                     soup = BeautifulSoup(html)
                     pass
-
+            
             years = list()
             incomes = list()
             rates = list()
@@ -231,8 +233,15 @@ class dog(object):
 
     def line_chart(self, data) -> pd.Series:
         import matplotlib.pyplot as plt
+        
         plt.figure(figsize=(10,5))
         plt.plot(data.index, data.values)
+        plt.title(data.name,{'fontsize':40}, loc='center', pad=6)  # 設定 title 文字樣式
+        #plt.xlabel('x-axis',{'fontsize':20})    # 設定 x 軸標籤
+        #plt.ylabel('y-axis',{'fontsize':20})  # 設定 y 軸標籤
+        plt.yticks(fontsize=25)  # 設定 y 軸刻度
+        plt.xticks(fontsize=25)  # 設定 y 軸刻度
+
         plt.savefig(self.ticker + "_" +  data.name + '.png')
         pass
 class web():
@@ -243,8 +252,8 @@ class web():
         self.options.add_argument('--headless')
         self.options.add_argument('--no-sandbox')
         self.options.add_argument('--disable-dev-shm-usage')
-        self.driver = webdriver.Chrome()
-
+        self.driver = webdriver.Chrome(options = self.options)
+        
     def session_start(self):
         self.driver.get(self.login_url)
         pass

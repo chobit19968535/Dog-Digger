@@ -1,4 +1,5 @@
-﻿using Python.Runtime;
+﻿using Microsoft.VisualBasic.Logging;
+using Python.Runtime;
 using System.Reflection.Emit;
 
 
@@ -38,7 +39,7 @@ namespace DashBoard
         private void login()
         {
 
-            Runtime.PythonDLL = system_path.pkg_dog_digger_dir;
+            Runtime.PythonDLL = system_path.python_dll;
 
             //string pathToVirtualEnv = "C:/Users/felk/venv39";
 
@@ -53,25 +54,26 @@ namespace DashBoard
             //PythonEngine.PythonPath = PythonEngine.PythonPath + Path.PathSeparator +
             //                          Environment.GetEnvironmentVariable("PYTHONPATH", EnvironmentVariableTarget.Process);
             //PythonEngine.PythonHome = pathToVirtualEnv;
-
-
             PythonEngine.Initialize();
             PythonEngine.BeginAllowThreads();
             Py.GIL();
 
             dynamic sys = Py.Import("sys");
             dynamic os = Py.Import("os");
-            sys.path.append(os.getcwd());
 
-            
+            sys.path.append(os.getcwd());
+            sys.path.append(system_path.sharp_work_dir);
+            sys.path.append(system_path.pkg_dog_digger_dir);
 
             //sys.path.append("X:\\C#\\Dog Digger\\Dog Digger");
             DG = Py.Import("Dog_Digger");
 
-            DG.set_sharp_work_dir();
+            DG.set_sharp_work_dir(system_path.sharp_work_dir);
             DG.set_accountName(email);
             DG.set_password(password);
             DG.start();
+
+
         }
 
         private void textBox_ticker_input_KeyDown(object sender, KeyEventArgs e)
@@ -133,7 +135,8 @@ namespace DashBoard
             //this.Width = size.Width;
             //this.Height = size.Height;
 
-            this.Location = new Point(size.Width / 2, 0);
+            this.Location = new Point(150, 100);
+
         }
         private void component_setting()
         {
@@ -214,7 +217,9 @@ namespace DashBoard
 
             public ENVS() 
             {
+                pkg_dog_digger_dir = "";
                 sharp_work_dir = Directory.GetCurrentDirectory();
+                python_dll = sharp_work_dir + "/python39.dll";
                 set_dog_digger(ref pkg_dog_digger_dir);
 
             }
@@ -225,9 +230,10 @@ namespace DashBoard
                 int remove_terms = 5;
                 for (int i =0; i < total_terms - remove_terms; i++)
                 {
-                    python_dll += sharp_work_dir.Split('\\')[i] + "\\";
+                    pkg_dog_digger_dir += sharp_work_dir.Split('\\')[i] + "\\";
                 }
-                    
+                pkg_dog_digger_dir += "/Dog Digger/";
+
             }
         }
     }

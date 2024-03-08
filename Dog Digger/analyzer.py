@@ -21,17 +21,30 @@ class pca():
         import os
         import shutil
         
-        install_path = str(matplotlib.__file__).replace('\__init__.py','')
-        install_path = install_path + '\mpl-data\fonts\ttf\\'
-        
-        ttf_path = self.sharp_dir + '\\fonts\\NotoSansTC-Medium.ttf'
-        if( os.path.exists (ttf_path) ):
-            shutil.copyfile(ttf_path, install_path + 'NotoSansTC-Medium.ttf')
+        font_custom = True
+        font_style = 'NotoSansTC-Medium.ttf'
+        ttf_path = None
 
+        install_path = str(matplotlib.__file__).replace('\__init__.py','')
+        install_path = install_path + '\\mpl-data\\fonts\\ttf\\'
+        if(self.sharp_dir != None):
+            ttf_path = self.sharp_dir + '\\fonts\\'+font_style
+        if(ttf_path != None):
+            if( os.path.exists (ttf_path) ):
+                try:
+                    shutil.copyfile( install_path + font_style)
+                except:
+                    if(os.path.exists(install_path + font_style)):
+                        pass
+                    font_custom = False
+                    pass
         #資料視覺化
         cor = self.data.corr()
-        # plt.rcParams['font.sans-serif'] = ['Microsoft JhengHei'] # 修改中文字體
-        plt.rcParams['font.sans-serif'] = ['Noto Sans TC Mediumn'] # 修改中文字體
+        if font_custom:
+            plt.rcParams['font.sans-serif'] = ['Noto Sans TC Mediumn'] # 修改中文字體
+        else:
+            plt.rcParams['font.sans-serif'] = ['Microsoft JhengHei'] # 修改中文字體
+
 
         plt.figure(figsize=(10,10))
         plt.title("Correlation Matrix(" + str(self.ticker_name) +")")
