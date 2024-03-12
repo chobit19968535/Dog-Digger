@@ -115,7 +115,6 @@ def dig():
     pass
 
 #user.account = "chobit19968535@gmail.com"
-#user.password = "zapdAj-pepbe4-bykzuf"
 #dog.ticker = "6533"
 #start()
 #dig()
