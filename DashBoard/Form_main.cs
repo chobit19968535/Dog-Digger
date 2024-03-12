@@ -226,17 +226,23 @@ namespace DashBoard
                 python_dll = sharp_work_dir + "/python39.dll";
                 set_dog_digger(ref pkg_dog_digger_dir);
 
+
             }
 
             private void set_dog_digger(ref string path)
             {
                 int total_terms = sharp_work_dir.Split('\\').Length;
                 int remove_terms = 5;
+
+#if DEBUG
                 for (int i =0; i < total_terms - remove_terms; i++)
                 {
                     pkg_dog_digger_dir += sharp_work_dir.Split('\\')[i] + "\\";
                 }
                 pkg_dog_digger_dir += "/Dog Digger/";
+#else
+                pkg_dog_digger_dir = Directory.GetCurrentDirectory();
+#endif
 
             }
         }
