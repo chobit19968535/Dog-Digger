@@ -209,6 +209,10 @@ namespace DashBoard
                 e.Handled = true;
             }
         }
+        public void exit()
+        {
+            DG.close();
+        }
         public class ENVS
         {
             public string sharp_work_dir;
@@ -236,5 +240,6 @@ namespace DashBoard
 
             }
         }
+
     }
 }

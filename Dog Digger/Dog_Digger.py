@@ -114,6 +114,9 @@ def dig():
     dog.line_chart(df_report['研營比']);
     pass
 
+def close():
+    exit()
+
 #user.account = "chobit19968535@gmail.com"
 #dog.ticker = "6533"
 #start()

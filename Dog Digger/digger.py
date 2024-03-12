@@ -233,10 +233,12 @@ class dog(object):
 
     def line_chart(self, data) -> pd.Series:
         import matplotlib.pyplot as plt
-        
+        if(data.name == '營業總支出'):
+            data = -data
         plt.figure(figsize=(10,5))
         plt.plot(data.index, data.values)
         plt.title(data.name,{'fontsize':40}, loc='center', pad=6)  # 設定 title 文字樣式
+        plt.rcParams['axes.unicode_minus'] = False
         #plt.xlabel('x-axis',{'fontsize':20})    # 設定 x 軸標籤
         #plt.ylabel('y-axis',{'fontsize':20})  # 設定 y 軸標籤
         plt.yticks(fontsize=25)  # 設定 y 軸刻度

@@ -29,8 +29,21 @@ namespace DashBoard
             }
 
             List<string> info = new List<string>() { email, password};
-            Application.Run(new Form_dash_board(info));
-            Application.Exit();
+
+            using (var form = new Form_dash_board(info))
+            {
+                if (DialogResult.OK == form.ShowDialog())
+                {
+
+                }
+                else
+                {
+                    form.exit();
+                    form.Dispose();
+                }
+            }
+            //Application.Run(new Form_dash_board(info));
+            //Application.Exit();
         }
     }
 }
