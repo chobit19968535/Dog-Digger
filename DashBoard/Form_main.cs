@@ -11,6 +11,7 @@ namespace DashBoard
         string password { get; set; }
         dynamic DG { get; set; }
         Bitmap BMP_CORR_MATRIX { get; set; }
+        Bitmap BMP_PB_RIVER { get; set; }
 
         Bitmap BMP_INCOME { get; set; }
         Bitmap BMP_NET_INCOME { get; set; }
@@ -88,6 +89,7 @@ namespace DashBoard
 
                 DG.set_ticker(ticker);
                 DG.dig();
+                iconButton_switch.Visible = true;
 
                 BMP_EPS = new Bitmap(ticker + "_EPS.png");
                 pictureBox_Left_1.Image = BMP_EPS;
@@ -103,6 +105,8 @@ namespace DashBoard
 
                 BMP_CORR_MATRIX = new Bitmap("PPMCC_" + ticker + ".png");
                 pictureBox_corr_mattrix.Image = BMP_CORR_MATRIX;
+
+                BMP_PB_RIVER = new Bitmap("PB_river_" + ticker + ".png");
 
                 BMP_INCOME = new Bitmap(ticker + "_營收.png");
                 pictureBox_Right_1.Image = BMP_INCOME;
@@ -247,5 +251,13 @@ namespace DashBoard
             }
         }
 
+        private void iconButton_switch_Click(object sender, EventArgs e)
+        {
+            if (pictureBox_corr_mattrix.Image == BMP_CORR_MATRIX)
+            {
+                pictureBox_corr_mattrix.Image = BMP_PB_RIVER;
+            }
+            else pictureBox_corr_mattrix.Image = BMP_CORR_MATRIX;
+        }
     }
 }

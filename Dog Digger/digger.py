@@ -1,4 +1,6 @@
-﻿from cgitb import text
+﻿from ast import Str
+from cgitb import text
+from email import header
 from enum import Enum
 from optparse import Option
 from pickle import NONE
@@ -11,14 +13,20 @@ from selenium.webdriver.common.by import By
 import pandas as pd
 import math as pmath
 from analyzer import pca
+import yfinance as yf
+import datetime
+from dateutil.relativedelta import relativedelta
 
 
 class dog(object):
     def __init__(self):
         self.sharp_dir = None
         self.ticker = "2330"
+        self.live_time = 0
         self.web = web()
         self.web.session_start()
+
+
 
     def query(self, mode) -> Enum:
         if(mode == query_modes.income):
@@ -220,16 +228,218 @@ class dog(object):
 
 
             return df
-        pass
+        if(mode == query_modes.pb):
+            url = self.web.query_url + str(self.ticker) + mode.value
+            #print(url)
+            self.web.driver.get(url)
+            utility.delay()
+            html = self.web.driver.page_source
+            soup = BeautifulSoup(html)
+
+            pb_1 = list()
+            pb_2 = list()
+            pb_3 = list()
+            pb_4 = list()
+            pb_5 = list()
+            pb_6 = list()
+
+            dataTable = soup.find("li",attrs={"id":"dataTable"})
+            rows = dataTable.findAll("tr")
+
+            #Level 1
+            for cell in rows[1].findAll("td"):
+                if(cell.text == '無' or cell.text =='前期為零'):
+                    epses.append(0)
+                    continue
+                pb_1.append(float(cell.text.replace(',','')))
+
+            #Level 2
+            for cell in rows[2].findAll("td"):
+                if(cell.text == '無' or cell.text =='前期為零'):
+                    epses.append(0)
+                    continue
+                pb_2.append(float(cell.text.replace(',','')))
+
+            #Level 3
+            for cell in rows[3].findAll("td"):
+                if(cell.text == '無' or cell.text =='前期為零'):
+                    epses.append(0)
+                    continue
+                pb_3.append(float(cell.text.replace(',','')))
+
+            #Level 4
+            for cell in rows[4].findAll("td"):
+                if(cell.text == '無' or cell.text =='前期為零'):
+                    epses.append(0)
+                    continue
+                pb_4.append(float(cell.text.replace(',','')))
+
+            #Level 5
+            for cell in rows[5].findAll("td"):
+                if(cell.text == '無' or cell.text =='前期為零'):
+                    epses.append(0)
+                    continue
+                pb_5.append(float(cell.text.replace(',','')))
+
+            #Level 6
+            for cell in rows[6].findAll("td"):
+                if(cell.text == '無' or cell.text =='前期為零'):
+                    epses.append(0)
+                    continue
+                pb_6.append(float(cell.text.replace(',','')))
+            
+            pb_1_h = str()
+            pb_2_h = str()
+            pb_3_h = str()
+            pb_4_h = str()
+            pb_5_h = str()
+            pb_6_h = str()
+
+            dataTable = soup.find("li",attrs={"id":"itemTable"})
+            rows = dataTable.findAll("tr")
+
+            #Level 1_header
+            for cell in rows[1].findAll("td"):
+                if(cell.text == '無' or cell.text =='前期為零'):
+                    epses.append(0)
+                    continue
+                pb_1_h  = cell.text
+
+            #Level 2_header
+            for cell in rows[2].findAll("td"):
+                if(cell.text == '無' or cell.text =='前期為零'):
+                    epses.append(0)
+                    continue
+                pb_2_h  = cell.text
+
+            #Level 3_header
+            for cell in rows[3].findAll("td"):
+                if(cell.text == '無' or cell.text =='前期為零'):
+                    epses.append(0)
+                    continue
+                pb_3_h  = cell.text
+
+            #Level 4_header
+            for cell in rows[4].findAll("td"):
+                if(cell.text == '無' or cell.text =='前期為零'):
+                    epses.append(0)
+                    continue
+                pb_4_h  = cell.text
+
+            #Level 5_header
+            for cell in rows[5].findAll("td"):
+                if(cell.text == '無' or cell.text =='前期為零'):
+                    epses.append(0)
+                    continue
+                pb_5_h  = cell.text
+
+            #Level 6_header
+            for cell in rows[6].findAll("td"):
+                if(cell.text == '無' or cell.text =='前期為零'):
+                    epses.append(0)
+                    continue
+                pb_6_h  = cell.text
+
+            df_monthly_price  = self.yahoo_finance(len(pb_1))
+
+            data = list()
+            data_header = list()
+
+            data_header.append(pb_1_h)
+            data_header.append(pb_2_h)
+            data_header.append(pb_3_h)
+            data_header.append(pb_4_h)
+            data_header.append(pb_5_h)
+            data_header.append(pb_6_h)
+            data_header.append("Close")
+
+            data.append(pb_1)
+            data.append(pb_2)
+            data.append(pb_3)
+            data.append(pb_4)
+            data.append(pb_5)
+            data.append(pb_6)
+            data.append(df_monthly_price)
+
+            df = pd.DataFrame(data=data)
+            df = df.T
+            df.columns = data_header
+            return df
 
     def analyze(self, statement) -> pd.DataFrame:
         optimizer = pca(statement, self.ticker)
         optimizer.sharp_dir = self.sharp_dir
         optimizer.ppmcc()
         #optimizer.run()
-
-
         pass
+
+    def yahoo_finance(self, num_month:int)-> pd.Series:
+
+
+        import datetime
+        from dateutil.relativedelta import relativedelta
+        import yfinance as yf
+        date = datetime.datetime.now().date()
+
+        end_date = date
+        start_date = date + relativedelta(months= -num_month)
+
+        info = yf.Ticker(self.ticker + ".TW")
+
+        # get historical market data
+        hist = info.history(start=start_date, end=end_date, interval="1mo")
+        series = pd.Series(data = hist["Close"], index = None)
+        return series
+
+    def river_chart(self):
+        import pandas as pd
+        import matplotlib.pyplot as plt
+        import matplotlib
+        import os
+        import shutil
+        
+        font_custom = True
+        font_style = 'NotoSansTC-Medium.ttf'
+        ttf_path = None
+
+        install_path = str(matplotlib.__file__).replace('\__init__.py','')
+        install_path = install_path + '\\mpl-data\\fonts\\ttf\\'
+        if(self.sharp_dir != None):
+            ttf_path = self.sharp_dir + '\\fonts\\'+font_style
+        if(ttf_path != None):
+            if( os.path.exists (ttf_path) ):
+                try:
+                    shutil.copyfile( install_path + font_style)
+                except:
+                    if(os.path.exists(install_path + font_style)):
+                        pass
+                    font_custom = False
+                    pass
+
+        f = "data_" + self.ticker + '_PBs.xlsx'
+        data = pd.read_excel(f)
+
+        #price_min = (int)(data.min().min())
+        #price_max = (int)(data.max().max())
+        
+        #1/plt.rcParams['figure.dpi']  # pixel in inches
+        #plt.subplots(figsize=(720*px, price_max*px))
+        plt.figure()
+        plt.plot(data.iloc[:,0], '#21618C', linestyle = 'dashed')
+        plt.plot(data.iloc[:,1], '#2E86C1', linestyle = 'dashed')
+        plt.plot(data.iloc[:,2], '#85C1E9', linestyle = 'dashed')
+        plt.plot(data.iloc[:,3], '#F1C40F', linestyle = 'dashed')
+        plt.plot(data.iloc[:,4], '#F1948A', linestyle = 'dashed')
+        plt.plot(data.iloc[:,5], '#E74C3C', linestyle = 'dashed')
+        plt.plot(data.iloc[:,6], '#641E16', linestyle = 'solid')
+        plt.ylabel('股價',{'fontsize':12})  # 設定 y 軸標籤
+        plt.xticks(visible = False)
+
+        if font_custom:
+            plt.rcParams['font.sans-serif'] = ['Noto Sans TC Mediumn'] # 修改中文字體
+        else:
+            plt.rcParams['font.sans-serif'] = ['Microsoft JhengHei'] # 修改中文字體
+        plt.savefig("PB_river_" + self.ticker + ".png")
 
     def line_chart(self, data) -> pd.Series:
         import matplotlib.pyplot as plt
@@ -274,6 +484,8 @@ class query_modes(Enum):
     income = '/monthly-revenue'
     eps = '/eps'
     income_statement = '/income-statement'
+    pb = '/pb-band'
+
 
 class math():
     def quarterlize(dataframe) -> pd.Series:

@@ -1,7 +1,7 @@
 ﻿from ctypes.wintypes import tagPOINT
+from hashlib import new
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
@@ -16,7 +16,7 @@ class pca():
 
 
     def ppmcc(self):
-        
+        import matplotlib.pyplot as plt
         import matplotlib
         import os
         import shutil
@@ -52,6 +52,7 @@ class pca():
         plt.savefig("PPMCC_" + self.ticker_name + ".png")
         pass
 
+    pass
     def run(self):
         #標準化
         scale = StandardScaler().fit(self.data)

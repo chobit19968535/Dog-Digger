@@ -10,8 +10,30 @@ import digger
 from digger import query_modes
 import pandas as pd
 
+
 user = client()
 dog = dog()
+
+
+def yfinance():
+    import datetime
+    from dateutil.relativedelta import relativedelta
+    import yfinance as yf
+    date = datetime.datetime.now().date()
+
+    end_date = date
+    start_date = date + relativedelta(months= -63)
+
+    msft = yf.Ticker("6533.TW")
+    # get all stock info
+    #msft.info
+
+    # get historical market data
+    hist = msft.history(start=start_date, end=end_date, interval="1mo")
+    hist.to_excel("6533.TW.xlsx", index=None)
+
+yfinance()
+pass
 
 def test():
     user = client()
@@ -47,6 +69,7 @@ def test():
     column_name = ['毛率']
     gross_margin =  pd.DataFrame(df_report['毛利']/df_report['營收']*100, columns=column_name)
     df_report = pd.concat([df_report, gross_margin], axis = 1)
+
 
     df_report.to_excel('Report_' + dog.ticker + '.xlsx', index = None);
 
@@ -84,6 +107,9 @@ def dig():
     df_income_statement = dog.query(query_modes.income_statement)
     digger.utility.delay()
 
+
+
+
     df_report = pd.concat([df_income_statement.transpose(), df_epses.iloc[1]], axis = 1)
     dog.analyze(df_report)
 
@@ -99,6 +125,13 @@ def dig():
     gross_margin =  pd.DataFrame(df_report['毛利']/df_report['營收']*100, columns=column_name)
     df_report = pd.concat([df_report, gross_margin], axis = 1)
 
+    df_pbs = dog.query(query_modes.pb)
+    digger.utility.delay()
+
+    df_pbs.to_excel('data_' + dog.ticker + '_PBs.xlsx', index = None)
+    dog.river_chart()
+
+    df_report = pd.concat([df_report, df_pbs], axis = 1)
     df_report.to_excel('Report_' + dog.ticker + '.xlsx', index = None);
 
     # 右邊圖表
@@ -119,6 +152,6 @@ def close():
 
 #user.account = "chobit19968535@gmail.com"
 #dog.ticker = "6533"
+
 #start()
 #dig()
-

@@ -35,6 +35,8 @@
             this.pictureBox_Left_1 = new System.Windows.Forms.PictureBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.panel_corr_matrix = new System.Windows.Forms.Panel();
+            this.iconButton_switch = new FontAwesome.Sharp.IconButton();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.pictureBox_corr_mattrix = new System.Windows.Forms.PictureBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel_right = new System.Windows.Forms.Panel();
@@ -132,6 +134,8 @@
             // panel_corr_matrix
             // 
             this.panel_corr_matrix.BackColor = System.Drawing.Color.DarkCyan;
+            this.panel_corr_matrix.Controls.Add(this.iconButton_switch);
+            this.panel_corr_matrix.Controls.Add(this.statusStrip1);
             this.panel_corr_matrix.Controls.Add(this.pictureBox_corr_mattrix);
             this.panel_corr_matrix.Controls.Add(this.textBox1);
             this.panel_corr_matrix.Dock = System.Windows.Forms.DockStyle.Left;
@@ -139,6 +143,31 @@
             this.panel_corr_matrix.Name = "panel_corr_matrix";
             this.panel_corr_matrix.Size = new System.Drawing.Size(1679, 957);
             this.panel_corr_matrix.TabIndex = 6;
+            // 
+            // iconButton_switch
+            // 
+            this.iconButton_switch.BackColor = System.Drawing.Color.White;
+            this.iconButton_switch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.iconButton_switch.ForeColor = System.Drawing.Color.White;
+            this.iconButton_switch.IconChar = FontAwesome.Sharp.IconChar.Table;
+            this.iconButton_switch.IconColor = System.Drawing.Color.Black;
+            this.iconButton_switch.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.iconButton_switch.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.iconButton_switch.Location = new System.Drawing.Point(3, 3);
+            this.iconButton_switch.Name = "iconButton_switch";
+            this.iconButton_switch.Size = new System.Drawing.Size(58, 44);
+            this.iconButton_switch.TabIndex = 4;
+            this.iconButton_switch.UseVisualStyleBackColor = false;
+            this.iconButton_switch.Visible = false;
+            this.iconButton_switch.Click += new System.EventHandler(this.iconButton_switch_Click);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Location = new System.Drawing.Point(0, 935);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1679, 22);
+            this.statusStrip1.TabIndex = 3;
+            this.statusStrip1.Text = "statusStrip1";
             // 
             // pictureBox_corr_mattrix
             // 
@@ -352,5 +381,7 @@
         private Label label_ticker_name;
         private Panel panel_bottom;
         private Panel panel2;
+        private StatusStrip statusStrip1;
+        private FontAwesome.Sharp.IconButton iconButton_switch;
     }
 }
